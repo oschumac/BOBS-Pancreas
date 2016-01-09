@@ -1,0 +1,356 @@
+[
+  {
+    "_type": "AlarmSensor", 
+    "alarm_description": "Low Glucose", 
+    "_description": "AlarmSensor 2016-01-10T00:37:40 head[3], body[0] op[0x0b]", 
+    "alarm_type": 102, 
+    "timestamp": "2016-01-10T00:37:40", 
+    "_body": "", 
+    "_head": "0b664b", 
+    "amount": 75, 
+    "_date": "286520aa10"
+  }, 
+  {
+    "_type": "PumpResume", 
+    "_description": "PumpResume 2016-01-10T00:28:28 head[2], body[0] op[0x1f]", 
+    "timestamp": "2016-01-10T00:28:28", 
+    "_body": "", 
+    "_head": "1f20", 
+    "_date": "1c5c000a10"
+  }, 
+  {
+    "_type": "BasalProfileStart", 
+    "offset": 0, 
+    "_description": "BasalProfileStart 2016-01-10T00:28:28 head[2], body[3] op[0x7b]", 
+    "timestamp": "2016-01-10T00:28:28", 
+    "_body": "001400", 
+    "profile_index": 0, 
+    "_head": "7b00", 
+    "rate": 0.5, 
+    "_date": "1c5c000a10"
+  }, 
+  {
+    "_type": "AlarmSensor", 
+    "alarm_description": "Low Glucose", 
+    "_description": "AlarmSensor 2016-01-10T00:16:35 head[3], body[0] op[0x0b]", 
+    "alarm_type": 102, 
+    "timestamp": "2016-01-10T00:16:35", 
+    "_body": "", 
+    "_head": "0b6647", 
+    "amount": 71, 
+    "_date": "235020aa10"
+  }, 
+  {
+    "_type": "PumpSuspend", 
+    "_description": "PumpSuspend 2016-01-10T00:15:07 head[2], body[0] op[0x1e]", 
+    "timestamp": "2016-01-10T00:15:07", 
+    "_body": "", 
+    "_head": "1e01", 
+    "_date": "074f000a10"
+  }, 
+  {
+    "_type": "Prime", 
+    "type": "fixed", 
+    "_description": "Prime 2016-01-10T00:14:44 head[5], body[0] op[0x03]", 
+    "timestamp": "2016-01-10T00:14:44", 
+    "_body": "", 
+    "fixed": 0.4, 
+    "_head": "0300040004", 
+    "amount": 0.4, 
+    "_date": "2c4e000a10"
+  }, 
+  {
+    "_type": "BasalProfileStart", 
+    "offset": 0, 
+    "_description": "BasalProfileStart 2016-01-10T00:14:58 head[2], body[3] op[0x7b]", 
+    "timestamp": "2016-01-10T00:14:58", 
+    "_body": "001400", 
+    "profile_index": 0, 
+    "_head": "7b00", 
+    "rate": 0.5, 
+    "_date": "3a4e000a10"
+  }, 
+  {
+    "_type": "Prime", 
+    "type": "manual", 
+    "_description": "Prime 2016-01-10T00:14:06 head[5], body[0] op[0x03]", 
+    "timestamp": "2016-01-10T00:14:06", 
+    "_body": "", 
+    "fixed": 0.0, 
+    "_head": "0300000049", 
+    "amount": 7.3, 
+    "_date": "064e200a10"
+  }, 
+  {
+    "_type": "Sara6E", 
+    "_description": "Sara6E 2016-01-10T00:00:00 head[1], body[49] op[0x6e]", 
+    "timestamp": "2016-01-10T00:00:00", 
+    "_body": "050085609405000004e301c624031d4000b400bc0024015000ed020102260087005f051d1e000098a40400010000000000", 
+    "valid_date": "2016-01-09", 
+    "_head": "6e", 
+    "_date": "0990"
+  }, 
+  {
+    "_type": "ResultDailyTotal", 
+    "_description": "ResultDailyTotal 2016-01-10T00:00:00 head[5], body[3] op[0x07]", 
+    "timestamp": "2016-01-10T00:00:00", 
+    "_body": "000000", 
+    "valid_date": "2016-01-09", 
+    "_head": "07000004e3", 
+    "_date": "0990"
+  }, 
+  {
+    "_type": "AlarmSensor", 
+    "alarm_description": "Low Glucose", 
+    "_description": "AlarmSensor 2016-01-09T23:57:40 head[3], body[0] op[0x0b]", 
+    "alarm_type": 102, 
+    "timestamp": "2016-01-09T23:57:40", 
+    "_body": "", 
+    "_head": "0b664c", 
+    "amount": 76, 
+    "_date": "287937a910"
+  }, 
+  {
+    "_type": "Rewind", 
+    "_description": "Rewind 2016-01-09T23:26:41 head[2], body[0] op[0x21]", 
+    "timestamp": "2016-01-09T23:26:41", 
+    "_body": "", 
+    "_head": "2100", 
+    "_date": "295a170910"
+  }, 
+  {
+    "_type": "PumpResume", 
+    "_description": "PumpResume 2016-01-09T23:26:33 head[2], body[0] op[0x1f]", 
+    "timestamp": "2016-01-09T23:26:33", 
+    "_body": "", 
+    "_head": "1f20", 
+    "_date": "215a170910"
+  }, 
+  {
+    "_type": "BasalProfileStart", 
+    "offset": 57600000, 
+    "_description": "BasalProfileStart 2016-01-09T23:26:33 head[2], body[3] op[0x7b]", 
+    "timestamp": "2016-01-09T23:26:33", 
+    "_body": "201400", 
+    "profile_index": 3, 
+    "_head": "7b03", 
+    "rate": 0.5, 
+    "_date": "215a170910"
+  }, 
+  {
+    "_type": "PumpSuspend", 
+    "_description": "PumpSuspend 2016-01-09T23:17:20 head[2], body[0] op[0x1e]", 
+    "timestamp": "2016-01-09T23:17:20", 
+    "_body": "", 
+    "_head": "1e01", 
+    "_date": "1451172910"
+  }, 
+  {
+    "_type": "PumpResume", 
+    "_description": "PumpResume 2016-01-09T23:12:19 head[2], body[0] op[0x1f]", 
+    "timestamp": "2016-01-09T23:12:19", 
+    "_body": "", 
+    "_head": "1f20", 
+    "_date": "134c170910"
+  }, 
+  {
+    "_type": "BasalProfileStart", 
+    "offset": 57600000, 
+    "_description": "BasalProfileStart 2016-01-09T23:12:19 head[2], body[3] op[0x7b]", 
+    "timestamp": "2016-01-09T23:12:19", 
+    "_body": "201400", 
+    "profile_index": 3, 
+    "_head": "7b03", 
+    "rate": 0.5, 
+    "_date": "134c170910"
+  }, 
+  {
+    "programmed": 0.4, 
+    "_type": "Bolus", 
+    "_description": "Bolus 2016-01-09T23:12:09 head[8], body[0] op[0x01]", 
+    "timestamp": "2016-01-09T23:12:09", 
+    "_body": "", 
+    "_head": "0100100004002c00", 
+    "amount": 0.1, 
+    "unabsorbed": 1.1, 
+    "duration": 0, 
+    "type": "normal", 
+    "_date": "094c572910"
+  }, 
+  {
+    "_type": "PumpSuspend", 
+    "_description": "PumpSuspend 2016-01-09T23:12:17 head[2], body[0] op[0x1e]", 
+    "timestamp": "2016-01-09T23:12:17", 
+    "_body": "", 
+    "_head": "1e01", 
+    "_date": "114c170910"
+  }, 
+  {
+    "_type": "PumpResume", 
+    "_description": "PumpResume 2016-01-09T22:50:09 head[2], body[0] op[0x1f]", 
+    "timestamp": "2016-01-09T22:50:09", 
+    "_body": "", 
+    "_head": "1f20", 
+    "_date": "0972160910"
+  }, 
+  {
+    "_type": "BasalProfileStart", 
+    "offset": 57600000, 
+    "_description": "BasalProfileStart 2016-01-09T22:50:09 head[2], body[3] op[0x7b]", 
+    "timestamp": "2016-01-09T22:50:09", 
+    "_body": "201400", 
+    "profile_index": 3, 
+    "_head": "7b03", 
+    "rate": 0.5, 
+    "_date": "0972160910"
+  }, 
+  {
+    "programmed": 0.3, 
+    "_type": "Bolus", 
+    "_description": "Bolus 2016-01-09T22:50:00 head[8], body[0] op[0x01]", 
+    "timestamp": "2016-01-09T22:50:00", 
+    "_body": "", 
+    "_head": "01000c0005004000", 
+    "amount": 0.125, 
+    "unabsorbed": 1.6, 
+    "duration": 0, 
+    "type": "normal", 
+    "_date": "0072562910"
+  }, 
+  {
+    "_type": "PumpSuspend", 
+    "_description": "PumpSuspend 2016-01-09T22:50:08 head[2], body[0] op[0x1e]", 
+    "timestamp": "2016-01-09T22:50:08", 
+    "_body": "", 
+    "_head": "1e01", 
+    "_date": "0872160910"
+  }, 
+  {
+    "programmed": 0.2, 
+    "_type": "Bolus", 
+    "_description": "Bolus 2016-01-09T22:30:19 head[8], body[0] op[0x01]", 
+    "timestamp": "2016-01-09T22:30:19", 
+    "_body": "", 
+    "_head": "0100080008005400", 
+    "amount": 0.2, 
+    "unabsorbed": 2.1, 
+    "duration": 0, 
+    "type": "normal", 
+    "_date": "135e562910"
+  }, 
+  {
+    "programmed": 5.5, 
+    "_type": "Bolus", 
+    "_description": "Bolus 2016-01-09T20:52:12 head[8], body[0] op[0x01]", 
+    "timestamp": "2016-01-09T20:52:12", 
+    "_body": "", 
+    "appended": [
+      {
+        "_type": "UnabsorbedInsulinBolus", 
+        "_description": "UnabsorbedInsulinBolus unknown head[35], body[0] op[0x5c]", 
+        "data": [
+          {
+            "amount": 0.2, 
+            "age": 54
+          }, 
+          {
+            "amount": 1.5, 
+            "age": 144
+          }, 
+          {
+            "amount": 0.1, 
+            "age": 204
+          }, 
+          {
+            "amount": 0.1, 
+            "age": 214
+          }, 
+          {
+            "amount": 0.4, 
+            "age": 224
+          }, 
+          {
+            "amount": 0.1, 
+            "age": 234
+          }, 
+          {
+            "amount": 0.2, 
+            "age": 244
+          }, 
+          {
+            "amount": 0.1, 
+            "age": 264
+          }, 
+          {
+            "amount": 0.3, 
+            "age": 274
+          }, 
+          {
+            "amount": 2.2, 
+            "age": 394
+          }, 
+          {
+            "amount": 1.0, 
+            "age": 404
+          }
+        ], 
+        "_body": "", 
+        "_head": "5c230836c03c90c004ccc004d6c010e0c004eac008f4c00408d00c12d0588ad02894d0", 
+        "_date": ""
+      }
+    ], 
+    "_head": "0100dc00dc001000", 
+    "amount": 5.5, 
+    "unabsorbed": 0.4, 
+    "duration": 0, 
+    "type": "normal", 
+    "_date": "0c74540910"
+  }, 
+  {
+    "_type": "BolusWizard", 
+    "bg": 14.8, 
+    "bg_target_high": 11.0, 
+    "_description": "BolusWizard 2016-01-09T20:52:12 head[2], body[15] op[0x5b]", 
+    "timestamp": "2016-01-09T20:52:12", 
+    "_body": "4650008c286e2400c800001000dc6e", 
+    "_head": "5b94", 
+    "unabsorbed_insulin_total": 0.4, 
+    "correction_estimate": 0.9, 
+    "_date": "0c74140910", 
+    "bolus_estimate": 5.5, 
+    "bg_target_low": 11.0, 
+    "carb_ratio": 14.0, 
+    "food_estimate": 5.0, 
+    "carb_input": 70, 
+    "sensitivity": 4.0
+  }, 
+  {
+    "_type": "BGReceived", 
+    "link": "711920", 
+    "_description": "BGReceived 2016-01-09T20:51:43 head[2], body[3] op[0x3f]", 
+    "timestamp": "2016-01-09T20:51:43", 
+    "_body": "711920", 
+    "_head": "3f12", 
+    "amount": 148, 
+    "_date": "2b73946910"
+  }, 
+  {
+    "_type": "CalBGForPH", 
+    "_description": "CalBGForPH 2016-01-09T20:51:43 head[2], body[0] op[0x0a]", 
+    "timestamp": "2016-01-09T20:51:43", 
+    "_body": "", 
+    "_head": "0a94", 
+    "amount": 148, 
+    "_date": "2b73346910"
+  }, 
+  {
+    "_type": "AlarmSensor", 
+    "alarm_description": "Meter BG Now", 
+    "_description": "AlarmSensor 2016-01-09T20:51:00 head[3], body[0] op[0x0b]", 
+    "alarm_type": 104, 
+    "timestamp": "2016-01-09T20:51:00", 
+    "_body": "", 
+    "_head": "0b6800", 
+    "_date": "007334a910"
+  }
+]
