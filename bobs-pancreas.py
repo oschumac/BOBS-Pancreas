@@ -70,8 +70,8 @@ WaitingThreshold=25  #int (mg/dl for compatibility with OpenAPS toolset)
                      #2- if current glucose is higher than (TargetGlucose + WaitingThreshold)
 APSBatteryLow=False  #bln (will be triggered by GPIO when battery gets low)
 ExerciseFactor=1     #int (will be increased when user reports he/she is exercising. this reduces the aggressiveness of the algorithm & therefore reduces insulin during exercise)
-KeepAlive=True       #bln (when true, the USB ports are not shut down between loops)
-UsePrediction=True  #bln (EXPERIMENTAL - initial testing shows leads to hypos if factor is too high. when true, the algorithm will check actual results against predictions to detect meals or exercise & react. this is the D in a PID controller.)
+KeepAlive=False      #bln (when true, the USB ports are not shut down between loops)
+UsePrediction=True   #bln (EXPERIMENTAL - initial testing shows leads to hypos if factor is too high. when true, the algorithm will check actual results against predictions to detect meals or exercise & react. this is the D in a PID controller.)
 MealDetectReponseFactor=1.0  #float (goes with UsePrediction. a number which can be changed to tune the algorithm's response to a meal. higher = more aggressive. this factor dampens glucose change speed in both directions, up and down. it is the D in a PID controller.)
 LoopFrequency=300    #int (How many seconds between loops - used to calculate predicted change
 LoopWaitTime=240     #int (roughly equivalent to LoopFrequency minus the time it takes for the loop to run. this is the actual time the loop will wait between runs.)
@@ -98,7 +98,7 @@ def CalculateBolus(glucose):
     if glucose < 0:                        #glucose == -1 means that the glucose data is older that 4m59s
        AppendLog("CalculateBolus()",5005)
        return -1
-      
+
     floatUnits=0.0        #start from a safe place
     Proceed=0             #start from a safe place
     
@@ -147,14 +147,15 @@ def CalculateBolus(glucose):
     AppendLog("CalculateBolus()", 7000, Logdata)
 
     #now store current predict-relevant data for next time this function runs.
-    data={"lg4p":glucose,"lcf4p":AdjustedCorrectionFactor,"lpc4p":PredictionCorrection}
-    try:
-        with open (GlucosePredictFile,"w") as GlucosePredict:
-            json.dump(data,GlucosePredict)
-    except:
-        AppendLog("CalculateBolus()",5010, "Could not write to %s." % (GlucosePredictFile))
-    else:
-        GlucosePredict.close()
+    if UsePrediction:
+        data={"lg4p":glucose,"lcf4p":AdjustedCorrectionFactor,"lpc4p":PredictionCorrection}
+        try:
+            with open (GlucosePredictFile,"w") as GlucosePredict:
+                json.dump(data,GlucosePredict)
+        except:
+            AppendLog("CalculateBolus()",5010, "Could not write to %s." % (GlucosePredictFile))
+        else:
+            GlucosePredict.close()
 
     #now all the calculation has been done. we'll need all that for the logs & later loops. but before we proceed, let's do a sanity check on the sensor data. 
     #if there has been a sudden/significant change in glucose direction, let's wait one loop for confirmation before reacting. sudden changes in direction are one of the signs of a potentially faulty sensor.
@@ -172,7 +173,7 @@ def CalculateBolus(glucose):
 
     AppendLog("CalculateBolus()", 7000, "PumpSuspended is " + str(PumpSuspended))
 	
-    if floatUnits <= -0.5 and PredictionCorrection < 0 and not PumpSuspended:   #if we're on our way down, and the pump is not suspended...
+    if ((floatUnits <= -0.5 and PredictionCorrection <= 0) or (GlucoseCorrection <= 0)) and not PumpSuspended:   #if we're on our way down or already under, and the pump is not suspended...
 	    #the use of -0.5 is to prevent the pump being suspended (which includes basal) when IOB is reasonably close to my usual basal insulin requirement.
         #PredictionCorrection is being used here as an indicator whether the glucose is going up or down.
         AppendLog("CalculateBolus()",6003, "Negative bolus of %s units requested." % (floatUnits))
@@ -182,7 +183,7 @@ def CalculateBolus(glucose):
             AppendLog("CalculateBolus()", 5008)
         return floatUnits                   #exit function now. negative bolus will trigger no action from Bolus()
 
-    elif floatUnits > -0.5 and PumpSuspended: 
+    elif floatUnits >= 0 and PumpSuspended: 
         #activate pump
         AppendLog("CalculateBolus()",6004, "Bolus of %s units is requested." % (floatUnits))   #pump status is correct
         try:
@@ -224,7 +225,6 @@ def CalculateBolus(glucose):
     #alright, if all is still well, return the calculated outcome and exit.
     if Proceed>0:
         AppendLog("CalculateBolus()", 6001)
-        SetLoopSuccess()
         return floatUnits
     else:
         AppendLog("CalculateBolus()", 5007)
@@ -403,7 +403,7 @@ def GetGlucose():
             if time.time() - time.mktime(lastreadingtuple) > 299:      #if last reading is older than 4 minutes 59 seconds
                 AppendLog("GetGlucose()", 5060)
                 return -1
-        
+                
         return currentglucose
 
 def GetReservoir():
@@ -438,9 +438,10 @@ def SetLoopSuccess():
 
     try:
         LoopSuccess=open(LoopSuccessFile,"w")
-        LoopSuccess.write(time.time())
+        LoopSuccess.write(str(time.time()))
         LoopSuccess.close()
     except:
+        AppendLog("SetLoopSuccess()", 5017)
         pass   #if this doesn't work, the successful loop will not be recorded and eventually the system will restart. not a big deal....
     
 def CheckLastSuccess():
@@ -449,14 +450,16 @@ def CheckLastSuccess():
     try:
         LoopSuccess=open(LoopSuccessFile,"r")
         LastSuccess=float(LoopSuccess.readline())
-        LastSuccess.close()
+        LoopSuccess.close()
     except:
         AppendLog("CheckLastSuccess()",5013)
         return False
     else:
-        if time.time() - LastSuccess > 1080:  #if the last successful loop was more than 18 minutes ago
-        AppendLog("CheckLastSuccess()",5014,"Last success %s minutes ago." & (LastSuccess/60)
-        ShutdownRestart()
+        MinutesSinceSuccess = (time.time() - LastSuccess)/60
+        AppendLog("CheckLastSuccess()",7000,"Last success %f minutes ago." % (MinutesSinceSuccess))
+        if MinutesSinceSuccess > 10:
+            AppendLog("CheckLastSuccess()",5014)
+            ShutdownRestart()
                 
 def GetStatus():
 #v1 done, tested
@@ -559,6 +562,7 @@ def UpdateNightscout():
         AppendLog("UpdateNightScout()",5040)
         return -1
     else:
+        GetIOB()
         try:
             p=subprocess.Popen("/home/pi/update-nightscout.sh", stdout=subprocess.PIPE, shell=True)
             (output, err) = p.communicate()    
@@ -569,10 +573,6 @@ def UpdateNightscout():
             AppendLog("UpdateNightScout()",6015)
             return 1
 
-def InitUI():
-#v1 in progress
-    #on error raise IOError
-    return 1
 
 def UpdateUI(glucose, IOB, timestamp, reservoir, apsbattery, exercisemode):
 #v1 in progress
@@ -582,12 +582,12 @@ def UpdateUI(glucose, IOB, timestamp, reservoir, apsbattery, exercisemode):
 
     return 1
 
-def UserInput():
+def CheckUserInput():
 #v1 in progress
     #on error raise IOError
 
 #include:
-# - set/release exercise mode
+# - set/release exercise mode (time limit as well)
 # - reload settings
 # - exit to shell
 # - shutdown/restart
@@ -675,7 +675,7 @@ def WaitAWhile(LastGlucose):
             except:
                 pass
 
-        time.sleep(LoopWaitTime-10)   #four minutes (240 seconds) is the minimum for Medtronic CGM due to update interval of the glucose readings. additional missing 10 seconds are below, after USB wake-up.
+        time.sleep(LoopWaitTime-10) 
 
         if not KeepAlive:
             command="./hub-ctrl.c/hub-ctrl -h 0 -P 2 -p 1"    #wake USB and Ethernet up
@@ -688,6 +688,7 @@ def WaitAWhile(LastGlucose):
                 p=subprocess.Popen (command, stdout=subprocess.PIPE, shell=True)
 
         time.sleep(10)
+        
 	
         try:
             Glucose=GetGlucose()
@@ -716,13 +717,15 @@ def MonitorBattery():
 def ShutdownRestart():
 #v1 done, untested
 
-    AppendLog("ShutdownRestart()", 7000,"Rebooting...")
+    AppendLog("ShutdownRestart()", 7000,"Rebooting in 60 seconds...")
 
+    time.sleep(60)
+    
     command="sudo reboot"
     try:
         p=subprocess.Popen (command, stdout=subprocess.PIPE, shell=True)
         (output, err) = p.communicate()
-    else:
+    except:
         AppendLog("ShutdownRestart()",5015)
         return -1
         
@@ -777,13 +780,12 @@ try:
     CorrectionFactor=GetCorrectionFactor(CorrectionFactorFile)	        #uses insulin sensitivies downloaded in PrepIOB() function
     TargetGlucose=GetTargetGlucose(TargetGlucoseFile)					#uses glucose targets downloaded in PrepIOB() function
     DIA=GetDIA()                                                        #uses DIA downloaded in PrepIOB() function
-    InitUI()
-    UserInput()
+    CheckUserInput()
     if UsePrediction:
         ResetPredictionJSON()
 except:
     AppendLog("Main program:", 5091)
-    sys.exit()
+    ShutdownRestart()
 
 while ContinueLooping:
 
@@ -799,13 +801,14 @@ while ContinueLooping:
         if Glucose > 0:
             GlucoseHistory.appendleft(Glucose)
             dump=GlucoseHistory.pop()
-
+        SetLoopSuccess()    #if we've made it this far, then 99% chance we have enough to finish the loop. set success early because later there are too many factors which may lead (legitimately) to an early exit.
+        
     except:
         CheckLastSuccess()
 
         AppendLog("Main program:",5090,"Waiting 1 minute.")
         if KeepAlive:
-            USBofftime=2
+            USBofftime=5
         else:
             USBofftime=50       
         AppendLog("Main program:",5090,"Resetting USB devices.")
